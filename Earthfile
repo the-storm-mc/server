@@ -16,8 +16,6 @@ render.docker-compose:
 build:
   COPY +render.docker-compose/ .
   COPY config config/
-  COPY ../site+build/ site/
-  COPY ../docs+build/ docs/
   COPY ../survival+build/ servers/survival/
   COPY ../creative+build/ servers/creative/
   SAVE ARTIFACT ./*

@@ -2,16 +2,6 @@
 	acme_dns route53
 }
 
-ts-mc.net {
-	root * /site
-	file_server
-}
-
-docs.ts-mc.net {
-	root * /docs
-	file_server
-}
-
 livemap.ts-mc.net {
 	reverse_proxy http://minecraft:8123
 }
