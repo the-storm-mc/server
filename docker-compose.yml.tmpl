@@ -1,0 +1,65 @@
+---
+services:
+    datadog:
+        container_name: datadog
+        image: gcr.io/datadoghq/agent:7
+        environment:
+            DD_API_KEY: "{{ .Env.DATADOG_API_KEY }}"
+            DD_SITE: datadoghq.com
+            DD_PROCESS_AGENT_ENABLED: "true"
+            DD_LOGS_ENABLED: "true"
+            DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL: "true"
+            DD_SYSTEM_PROBE_ENABLED: "true"
+            DD_APM_ENABLED: "true"
+            DD_LOGS_CONFIG_USE_HTTP: "true"
+        cap_add:
+            - SYS_ADMIN
+            - SYS_RESOURCE
+            - SYS_PTRACE
+            - NET_ADMIN
+            - NET_BROADCAST
+            - NET_RAW
+            - IPC_LOCK
+            - CHOWN
+        security_opt:
+            - apparmor:unconfined
+        volumes:
+            - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
+            - /sys/kernel/debug:/sys/kernel/debug
+            - /etc/passwd:/etc/passwd:ro
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+            - /opt/datadog-agent/run:/opt/datadog-agent/run:rw
+            - /proc/:/host/proc/:ro
+    minecraft:
+        container_name: minecraft
+        image: ghcr.io/shepherdjerred-minecraft/spigot:1.19.2
+        tty: true
+        stdin_open: true
+        volumes:
+            - /home/debian/servers/survival:/home/minecraft/server:z
+        ports:
+            - 25565:25565/tcp
+            - 25565:25565/udp
+        command: -Xmx8G -jar "../spigot.jar"
+        restart: unless-stopped
+    caddy:
+        container_name: caddy
+        build: config/caddy
+        environment:
+            AWS_ACCESS_KEY_ID: "{{ .Env.AWS_ACCESS_KEY_ID }}"
+            AWS_SECRET_ACCESS_KEY: "{{ .Env.AWS_SECRET_ACCESS_KEY }}"
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - caddy-config:/config:Z
+            - caddy-data:/data:Z
+            - ./site:/site:ro,Z
+            - ./docs:/docs:ro,Z
+            - ./config/caddy/Caddyfile:/etc/caddy/Caddyfile:ro,Z
+        restart: unless-stopped
+volumes:
+    caddy-config:
+    caddy-data:
+    borg-cache:
+version: "3.8"

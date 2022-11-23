@@ -1,0 +1,37 @@
+location:
+    source_directories:
+        - /var/www
+        - ~/Documents
+    repositories:
+        - ssh://uu53bjo8@uu53bjo8.repo.borgbase.com/./repo
+    exclude_patterns:
+        - "*.pyc"
+        - ~/*/.cache
+    exclude_if_present: .nobackup
+    one_file_system: true
+
+storage:
+    compression: auto,zstd
+    encryption_passphrase: CHANGEME
+    archive_name_format: "{hostname}-{now:%Y-%m-%d-%H%M%S}"
+    retries: 5
+    retry_wait: 5
+
+retention:
+    keep_daily: 3
+    keep_weekly: 4
+    keep_monthly: 12
+    keep_yearly: 2
+    prefix: "{hostname}-"
+
+consistency:
+    checks:
+        - disabled
+    check_last: 3
+    prefix: "{hostname}-"
+
+hooks:
+    before_backup:
+        - echo "`date` - Starting backup"
+    after_backup:
+        - echo "`date` - Finished backup"
