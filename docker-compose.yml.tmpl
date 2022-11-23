@@ -30,6 +30,21 @@ services:
             - /var/run/docker.sock:/var/run/docker.sock:ro
             - /opt/datadog-agent/run:/opt/datadog-agent/run:rw
             - /proc/:/host/proc/:ro
+    borgmatic:
+        image: b3vis/borgmatic
+        container_name: borgmatic
+        volumes:
+            - /home/debian/servers/survival:/mnt/survival:ro,z
+            - /home/debian/servers/creative:/mnt/creative:ro,z
+            - ./config/borg/config.yaml:/etc/borgmatic.d/config.yaml
+            - ./config/borg/crontab.txt:/etc/borgmatic.d/crontab.txt
+            - ./config/borg/known_hosts:/root/.ssh/known_hosts
+            - ./config/borg/key:/root/.ssh/key
+            - ./config/borg/key_append_only:/root/.ssh/key_append_only
+            - borg-cache:/root/.cache/borg
+        environment:
+            TZ: America/Los_Angeles
+            BORG_PASSPHRASE: "{{ .Env.BORG_TSMC_SURVIVAL }}"
     minecraft:
         container_name: minecraft
         image: ghcr.io/shepherdjerred-minecraft/spigot:1.19.2

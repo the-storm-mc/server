@@ -10,7 +10,7 @@ gomplate:
 render.docker-compose:
   FROM +gomplate
   COPY docker-compose.yml.tmpl .
-  RUN --secret=DATADOG_API_KEY=+secrets/sj/datadog_api_key --secret=AWS_ACCESS_KEY_ID=+secrets/sj/aws_access_key_id --secret=AWS_SECRET_ACCESS_KEY=+secrets/sj/aws_secret_access_key gomplate -f docker-compose.yml.tmpl -o docker-compose.yml
+  RUN --secret=BORG_TSMC_SURVIVAL=+secrets/sj/borgmatic/tsmc/survival --secret=DATADOG_API_KEY=+secrets/sj/datadog_api_key --secret=AWS_ACCESS_KEY_ID=+secrets/sj/aws_access_key_id --secret=AWS_SECRET_ACCESS_KEY=+secrets/sj/aws_secret_access_key gomplate -f docker-compose.yml.tmpl -o docker-compose.yml
   SAVE ARTIFACT docker-compose.yml
 
 build:

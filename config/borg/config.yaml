@@ -1,35 +1,31 @@
 location:
     source_directories:
-        - /var/www
-        - ~/Documents
+        - /mnt/survival
+        - /mnt/creative
     repositories:
-        - ssh://uu53bjo8@uu53bjo8.repo.borgbase.com/./repo
+        - ssh://t99y648f@t99y648f.repo.borgbase.com/./repo
     exclude_patterns:
-        - "*.pyc"
-        - ~/*/.cache
+        - "web"
     exclude_if_present: .nobackup
     one_file_system: true
-
 storage:
     compression: auto,zstd
     encryption_passphrase: CHANGEME
     archive_name_format: "{hostname}-{now:%Y-%m-%d-%H%M%S}"
     retries: 5
     retry_wait: 5
-
+    ssh_command: ssh -i /root/.ssh/key -i /root/.ssh/key_append_only
 retention:
     keep_daily: 3
     keep_weekly: 4
     keep_monthly: 12
     keep_yearly: 2
     prefix: "{hostname}-"
-
 consistency:
     checks:
         - disabled
     check_last: 3
     prefix: "{hostname}-"
-
 hooks:
     before_backup:
         - echo "`date` - Starting backup"
