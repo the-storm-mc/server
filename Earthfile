@@ -30,8 +30,8 @@ sync:
   FROM +rsync
   WORKDIR /workspace
   COPY +build/ .
-  RUN --no-cache --ssh rsync --progress -a --checksum * debian@ts-mc.net:/home/debian
+  RUN --no-cache --ssh rsync --progress -a --checksum * debian@minecraft.ts-mc.net:/home/debian
 
 up:
   FROM +sync
-  RUN --no-cache --ssh ssh debian@ts-mc.net "cd /home/debian && docker-compose pull && docker-compose build && docker-compose down --remove-orphans && docker-compose up -d --remove-orphans"
+  RUN --no-cache --ssh ssh debian@minecraft.ts-mc.net "cd /home/debian && docker-compose pull && docker-compose build && docker-compose down --remove-orphans && docker-compose up -d --remove-orphans"
