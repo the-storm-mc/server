@@ -3,5 +3,5 @@
 }
 
 livemap.ts-mc.net {
-	reverse_proxy http://minecraft:8123
+	reverse_proxy http://minecraft_surivival_prod:8123
 }
