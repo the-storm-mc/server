@@ -34,8 +34,7 @@ services:
         image: b3vis/borgmatic
         container_name: borgmatic
         volumes:
-            - /home/debian/servers/survival:/mnt/survival:ro,z
-            - /home/debian/servers/creative:/mnt/creative:ro,z
+            - /home/debian/servers:/mnt/servers:ro,z
             - ./config/borg/config.yaml:/etc/borgmatic.d/config.yaml
             - ./config/borg/crontab.txt:/etc/borgmatic.d/crontab.txt
             - ./config/borg/known_hosts:/root/.ssh/known_hosts
@@ -45,25 +44,25 @@ services:
         environment:
             TZ: America/Los_Angeles
             BORG_PASSPHRASE: "{{ .Env.BORG_TSMC_SURVIVAL }}"
-    minecraft_surivival_prod:
-        container_name: minecraft_surivival_prod
+    minecraft_survival_prod:
+        container_name: minecraft_survival_prod
         image: ghcr.io/shepherdjerred-minecraft/spigot:1.19.2
         tty: true
         stdin_open: true
         volumes:
-            - /home/debian/servers/survival:/home/minecraft/server:z
+            - /home/debian/servers/survival/prod:/home/minecraft/server:z
         ports:
             - 25565:25565/tcp
             - 25565:25565/udp
-        command: -Xmx8G -jar "../spigot.jar"
+        command: -Xmx8G -Dlog4j.configurationFile=log4j2.xml -jar "../spigot.jar"
         restart: unless-stopped
-    minecraft_surivival_beta:
-        container_name: minecraft_surivival_beta
+    minecraft_survival_beta:
+        container_name: minecraft_survival_beta
         image: ghcr.io/shepherdjerred-minecraft/spigot:1.19.2
         tty: true
         stdin_open: true
         volumes:
-            - /home/debian/servers/beta/survival:/home/minecraft/server:z
+            - /home/debian/servers/survival/beta:/home/minecraft/server:z
         ports:
             - 25575:25565/tcp
             - 25575:25565/udp
@@ -75,7 +74,7 @@ services:
         tty: true
         stdin_open: true
         volumes:
-            - /home/debian/servers/prod/survival:/home/minecraft/server:z
+            - /home/debian/servers/creative/prod:/home/minecraft/server:z
         ports:
             - 25566:25565/tcp
             - 25566:25565/udp
@@ -87,7 +86,7 @@ services:
         tty: true
         stdin_open: true
         volumes:
-            - /home/debian/servers/beta/creative:/home/minecraft/server:z
+            - /home/debian/servers/creative/beta:/home/minecraft/server:z
         ports:
             - 25576:25565/tcp
             - 25576:25565/udp

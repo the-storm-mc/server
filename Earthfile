@@ -1,6 +1,7 @@
 VERSION 0.6
 FROM ubuntu:jammy
 WORKDIR /workspace
+ARG --required stage
 
 gomplate:
   FROM golang:alpine
@@ -16,8 +17,8 @@ render.docker-compose:
 build:
   COPY +render.docker-compose/ .
   COPY config config/
-  COPY ../survival+build/ servers/survival/
-  COPY ../creative+build/ servers/creative/
+  COPY ../survival+build/ servers/survival/$stage
+  COPY ../creative+build/ servers/creative/$stage
   SAVE ARTIFACT ./*
 
 rsync:
@@ -28,10 +29,12 @@ rsync:
 
 sync:
   FROM +rsync
+  ARG --required stage
   WORKDIR /workspace
-  COPY +build/ .
+  COPY (+build/ --stage=$stage) .
   RUN --no-cache --ssh rsync --progress -a --checksum * debian@minecraft.ts-mc.net:/home/debian
 
 up:
-  FROM +sync
+  ARG --required stage
+  FROM +sync --stage=$stage
   RUN --no-cache --ssh ssh debian@minecraft.ts-mc.net "cd /home/debian && docker-compose pull && docker-compose build && docker-compose down --remove-orphans && docker-compose up -d --remove-orphans"
