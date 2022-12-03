@@ -3,5 +3,6 @@
 }
 
 livemap.ts-mc.net {
-	reverse_proxy http://minecraft_survival_prod:8123
+	root * /livemap
+	file_server
 }
