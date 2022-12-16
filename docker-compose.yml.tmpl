@@ -43,10 +43,10 @@ services:
       - borg-cache:/root/.cache/borg
     environment:
       TZ: America/Los_Angeles
-      BORG_PASSPHRASE: "{{ .Env.BORG_TSMC_SURVIVAL }}"
+      BORG_PASSPHRASE: "{{ .Env.BORG_PASSPHRASE }}"
   minecraft_survival_prod:
     container_name: minecraft_survival_prod
-    image: ghcr.io/shepherdjerred-minecraft/spigot:1.19.2
+    image: ghcr.io/shepherdjerred-minecraft/paper:1.19.3
     tty: true
     stdin_open: true
     volumes:
@@ -54,11 +54,11 @@ services:
     ports:
       - 25565:25565/tcp
       - 25565:25565/udp
-    command: -Xmx8G -Dlog4j.configurationFile=log4j2.xml -jar "../spigot.jar"
+    command: -Xmx8G -Dlog4j.configurationFile=log4j2.xml -jar "../paper.jar"
     restart: unless-stopped
   minecraft_survival_beta:
     container_name: minecraft_survival_beta
-    image: ghcr.io/shepherdjerred-minecraft/spigot:1.19.2
+    image: ghcr.io/shepherdjerred-minecraft/paper:1.19.3
     tty: true
     stdin_open: true
     volumes:
@@ -66,11 +66,11 @@ services:
     ports:
       - 25575:25565/tcp
       - 25575:25565/udp
-    command: -Xmx2G -jar "../spigot.jar"
-    restart: unless-stopped
+    command: -Xmx2G -jar "../paper.jar"
+    restart: "no"
   minecraft_creative_prod:
     container_name: minecraft_creative_prod
-    image: ghcr.io/shepherdjerred-minecraft/spigot:1.19.2
+    image: ghcr.io/shepherdjerred-minecraft/paper:1.19.3
     tty: true
     stdin_open: true
     volumes:
@@ -78,11 +78,11 @@ services:
     ports:
       - 25566:25565/tcp
       - 25566:25565/udp
-    command: -Xmx1G -jar "../spigot.jar"
-    restart: unless-stopped
+    command: -Xmx1G -jar "../paper.jar"
+    restart: "no"
   minecraft_creative_beta:
     container_name: minecraft_creative_beta
-    image: ghcr.io/shepherdjerred-minecraft/spigot:1.19.2
+    image: ghcr.io/shepherdjerred-minecraft/paper:1.19.3
     tty: true
     stdin_open: true
     volumes:
@@ -90,8 +90,8 @@ services:
     ports:
       - 25576:25565/tcp
       - 25576:25565/udp
-    command: -Xmx1G -jar "../spigot.jar"
-    restart: unless-stopped
+    command: -Xmx1G -jar "../paper.jar"
+    restart: "no"
   caddy:
     container_name: caddy
     build: config/caddy
