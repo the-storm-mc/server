@@ -67,7 +67,7 @@ services:
       - 25575:25565/tcp
       - 25575:25565/udp
     command: -Xmx2G -jar "../paper.jar"
-    restart: "no"
+    restart: unless-stopped
   minecraft_creative_prod:
     container_name: minecraft_creative_prod
     image: ghcr.io/shepherdjerred-minecraft/paper:1.19.3
@@ -79,7 +79,7 @@ services:
       - 25566:25565/tcp
       - 25566:25565/udp
     command: -Xmx1G -jar "../paper.jar"
-    restart: "no"
+    restart: unless-stopped
   minecraft_creative_beta:
     container_name: minecraft_creative_beta
     image: ghcr.io/shepherdjerred-minecraft/paper:1.19.3
@@ -91,7 +91,7 @@ services:
       - 25576:25565/tcp
       - 25576:25565/udp
     command: -Xmx1G -jar "../paper.jar"
-    restart: "no"
+    restart: unless-stopped
   caddy:
     container_name: caddy
     build: config/caddy
