@@ -34,7 +34,7 @@ services:
     image: b3vis/borgmatic
     container_name: borgmatic
     volumes:
-      - /home/debian/servers:/mnt/servers:ro,z
+      - /home/ubuntu/servers:/mnt/servers:ro,z
       - ./config/borg/config.yaml:/etc/borgmatic.d/config.yaml
       - ./config/borg/crontab.txt:/etc/borgmatic.d/crontab.txt
       - ./config/borg/known_hosts:/root/.ssh/known_hosts
@@ -50,7 +50,7 @@ services:
     tty: true
     stdin_open: true
     volumes:
-      - /home/debian/servers/survival/prod:/home/minecraft/server:z
+      - /home/ubuntu/servers/survival/prod:/home/minecraft/server:z
     ports:
       - 25565:25565/tcp
       - 25565:25565/udp
@@ -62,7 +62,7 @@ services:
     tty: true
     stdin_open: true
     volumes:
-      - /home/debian/servers/survival/beta:/home/minecraft/server:z
+      - /home/ubuntu/servers/survival/beta:/home/minecraft/server:z
     ports:
       - 25575:25565/tcp
       - 25575:25565/udp
@@ -74,7 +74,7 @@ services:
     tty: true
     stdin_open: true
     volumes:
-      - /home/debian/servers/creative/prod:/home/minecraft/server:z
+      - /home/ubuntu/servers/creative/prod:/home/minecraft/server:z
     ports:
       - 25566:25565/tcp
       - 25566:25565/udp
@@ -86,7 +86,7 @@ services:
     tty: true
     stdin_open: true
     volumes:
-      - /home/debian/servers/creative/beta:/home/minecraft/server:z
+      - /home/ubuntu/servers/creative/beta:/home/minecraft/server:z
     ports:
       - 25576:25565/tcp
       - 25576:25565/udp
@@ -105,7 +105,7 @@ services:
       - caddy-config:/config:Z
       - caddy-data:/data:Z
       - ./site:/site:ro,Z
-      - /home/debian/servers/survival/prod/plugins/dynmap/web:/livemap:ro,Z
+      - /home/ubuntu/servers/survival/prod/plugins/dynmap/web:/livemap:ro,Z
       - ./docs:/docs:ro,Z
       - ./config/caddy/Caddyfile:/etc/caddy/Caddyfile:ro,Z
     restart: unless-stopped

@@ -32,9 +32,9 @@ sync:
   ARG --required stage
   WORKDIR /workspace
   COPY (+build/ --stage=$stage) .
-  RUN --no-cache --ssh rsync --progress -a --checksum * debian@minecraft.ts-mc.net:/home/debian
+  RUN --no-cache --ssh rsync --progress -a --checksum * ubuntu@minecraft.glitter-boys.com:/home/ubuntu
 
 up:
   ARG --required stage
   FROM +sync --stage=$stage
-  RUN --no-cache --ssh ssh debian@minecraft.ts-mc.net "cd /home/debian && docker-compose pull && docker-compose build && docker-compose down --remove-orphans && docker-compose up -d --remove-orphans"
+  RUN --no-cache --ssh ssh ubuntu@minecraft.glitter-boys.com "cd /home/ubuntu && docker compose pull && docker compose build && docker compose down --remove-orphans && docker compose up -d --remove-orphans"
